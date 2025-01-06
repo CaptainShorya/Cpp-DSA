@@ -1,0 +1,15 @@
+{
+    "code-runner.clearPreviousOutput": true,
+    "code-runner.runInTerminal": true,
+    "code-runner.saveAllFilesBeforeRun": true,
+    "code-runner.saveFileBeforeRun": true,
+        "files.exclude": {
+            "**/*.exe": true
+        },
+        "files.associations": {
+            "*.ejs": "html",
+            "*.cpp": "cpp",
+            "iostream": "cpp"
+        }
+
+}
