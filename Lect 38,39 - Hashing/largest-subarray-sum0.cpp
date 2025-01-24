@@ -7,17 +7,17 @@
 #include <set>
 using namespace std;
 
-int largestSubArrayLength(vector<int> vec){ //Near about TC : O(n)
+int largestSubArrayLengthwithSum0(vector<int> vec){ //Near about TC : O(n)
     unordered_map<int,int> mpp; //Stores sum upto index <sum,idx>
     int sum = 0;
     int ans = 0;
-    for(int i=0; i<vec.size(); i++){ 
-        sum += vec[i];
+    for(int j=0; j<vec.size(); j++){ 
+        sum += vec[j];
         if(mpp.count(sum)){ //TC : O(1)
-            int currLen = i - mpp[sum];
+            int currLen = j - mpp[sum];
             ans = max(ans,currLen);
         }else{
-            mpp[sum] = i;
+            mpp[sum] = j;
         }
     }
     return ans;
@@ -26,6 +26,6 @@ int largestSubArrayLength(vector<int> vec){ //Near about TC : O(n)
 int main(){
     vector<int> vec = {15,-2,2,-8,1,7,10};
 
-    cout << largestSubArrayLength(vec) << endl;
+    cout << largestSubArrayLengthwithSum0(vec) << endl;
     return 0;
 }
