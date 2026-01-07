@@ -10,9 +10,9 @@ void subset(int arr[], vector<int> ans, int n, int idx){
         cout << endl;
         return;
     }
-    subset(arr,ans,n,idx+1);
+    subset(arr,ans,n,idx+1); // exclude 
     ans.push_back(arr[idx]);
-    subset(arr,ans,n,idx+1);
+    subset(arr,ans,n,idx+1); // include
 }
 
 int main(){
