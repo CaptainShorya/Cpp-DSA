@@ -15,7 +15,7 @@ void add_edge(int src, int dest, int wt, bool biDir = true){
     }
 }
 
-int prims(int src, int n){
+unordered_map<int,int>  dijkstra(int src, int n){
 
     // Min Heap -> {weight,node}
     priority_queue<pp, vector<pp> , greater<pp>> pq;
@@ -24,14 +24,14 @@ int prims(int src, int n){
     unordered_set<int> visited;
 
     // Helps in printing MST
-    vector<int> par(n+1,0);
+    vector<int> via(n+1,0);
 
     // Stores minimum weight needed
     // to connect node into MST
     unordered_map<int,int> mpp;
 
     // Initially every node has infinite weight
-    for(int i=0; i<=n; i++){
+    for(int i=0; i<n; i++){ //O(V)
         mpp[i] = INT_MAX;
     }
 
@@ -39,11 +39,8 @@ int prims(int src, int n){
     pq.push({0,src});
     mpp[src] = 0;
 
-    int total_count = 0;
-    int result = 0;
-
     // Continue until all nodes are visited
-    while(total_count < n){
+    while(!pq.empty()){
 
         pp curr = pq.top();
         pq.pop();
@@ -59,30 +56,27 @@ int prims(int src, int n){
         // Include node into MST
         visited.insert(currNode);
 
-        total_count++;
-        result += currWt;
-
         // Traverse neighbours
-        for(auto neighbour : graph[currNode]){
+        for(auto neighbour : graph[currNode]){ //O((V+E)logV)
 
             int neighNode = neighbour.first;
             int edgeWt = neighbour.second;
 
-            // Take only better minimum edge
+    
             if(!visited.count(neighNode) &&
-               edgeWt < mpp[neighNode]){
+               edgeWt + mpp[currNode] < mpp[neighNode]){
 
-                mpp[neighNode] = edgeWt;
+                mpp[neighNode] = edgeWt + mpp[currNode];
 
                 // Store parent of neighbour
-                par[neighNode] = currNode;
+                via[neighNode] = currNode;
 
-                pq.push({edgeWt, neighNode});
+                pq.push({edgeWt + mpp[currNode], neighNode});
             }
         }
     }
 
-    return result;
+    return mpp;
 }
 
 int main(){
@@ -91,7 +85,7 @@ int main(){
     cin >> n >> e;
 
     // Adjacency List
-    graph.resize(n+1 , list<pair<int,int>> ());
+    graph.resize(n , list<pair<int,int>> ());
 
     while(e--){
 
@@ -103,6 +97,11 @@ int main(){
 
     int src;
     cin >> src;
-
-    cout << prims(src,n) << endl;
+    unordered_map<int,int> sp = dijkstra(src,n);
+    for(auto &p : sp){
+        cout << p.first << " " << p.second << endl;
+    }
+    int dest;
+    cin >> dest;
+    cout << sp[dest] << "\n";
 }
